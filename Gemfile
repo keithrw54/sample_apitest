@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+gem 'airborne'
+gem 'spaceborne'
+gem 'curlyrest'
+gem 'rspec'
+gem 'byebug'
