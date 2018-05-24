@@ -8,13 +8,20 @@ def create_target_todo
   post 'http://localhost:3000/todos', {title: 'A screamer', created_by: 'kw'}
 end
 
-def delete_todos(filter)
+def delete_todos(filter, flag = :keep)
   get 'http://localhost:3000/todos'
-  res = json_body
-  res.each do |r|
-    unless filter.match(r[:title])
-      delete "http://localhost:3000/todos/#{r[:id]}"
-      expect_status(204)
+  json_body.each do |r|
+    case flag
+    when :keep
+      unless filter.match(r[:title])
+        delete "http://localhost:3000/todos/#{r[:id]}"
+        expect_status(204)
+      end
+    when :remove
+      if filter.match(r[:title])
+        delete "http://localhost:3000/todos/#{r[:id]}"
+        expect_status(204)
+      end
     end
   end
 end
